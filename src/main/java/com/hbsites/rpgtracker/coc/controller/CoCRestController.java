@@ -9,6 +9,7 @@ import com.hbsites.rpgtracker.coc.repository.CoCSessionRepository;
 import com.hbsites.rpgtracker.coc.repository.CoCSkillRepository;
 import com.hbsites.rpgtracker.coc.service.CoCPulpTalentService;
 import com.hbsites.rpgtracker.coc.service.CoCSessionService;
+import com.hbsites.rpgtracker.core.dto.SessionListingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,6 @@ public class CoCRestController {
 
     @GetMapping("/skills")
     public List<CoCSkillEntity> getAllSkils() {
-        return skillRepository.findAllByUsableTrue();
+        return skillRepository.findAll();
     }
 }

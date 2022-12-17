@@ -1,8 +1,11 @@
 package com.hbsites.rpgtracker.core.entity;
 
+import com.hbsites.rpgtracker.core.dto.CharacterSheetListingDTO;
+import com.hbsites.rpgtracker.core.dto.SessionListingDTO;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -24,4 +27,9 @@ public abstract class SessionEntity extends BaseEntity{
 
     @Column(name = "in_play", columnDefinition = "boolean")
     private Boolean inPlay;
+
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY)
+    private List<CharacterSheetEntity> sheets;
+
+    public abstract SessionListingDTO toListingDTO();
 }

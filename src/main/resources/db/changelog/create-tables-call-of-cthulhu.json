@@ -636,6 +636,295 @@
           }
         ]
       }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "occupation_coc"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "202212161944",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "occupation_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    },
+                    "defaultValueComputed": "gen_random_uuid()"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "text",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "skill_points_calculation_rule",
+                    "type": "varchar(45)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "minimum_credit_rating",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "maximum_credit_rating",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "suggested_contacts",
+                    "type": "text"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "epoch_personal_skill_choices",
+                    "type": "integer"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "typed_skill_choices",
+                    "type": "integer"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "typed_skill_choices_kind",
+                    "type": "varchar(45)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "occupation_skills_coc"
+                }
+              }
+            ]
+          },
+          {
+            "tableExists": {
+              "tableName": "occupation_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "skills_coc"
+            }
+          }
+        ],
+        "id": "202212161953",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "occupation_skills_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "occupation_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_occupation_skills_occupation_coc",
+                      "references": "occupation_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "skill_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_occupation_skills_skill_coc",
+                      "references": "skills_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "pulp_talents_character_sheet_coc"
+                }
+              }
+            ]
+          },
+          {
+            "tableExists": {
+              "tableName": "pulp_talents_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "character_sheet_coc"
+            }
+          }
+        ],
+        "id": "202212161956",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "pulp_talents_character_sheet_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "pulp_talent_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_pulp_talents_character_sheet_pulp_talents_coc",
+                      "references": "pulp_talents_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "character_sheet_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_pulp_talents_character_sheet_character_sheet_coc",
+                      "references": "character_sheet_coc(character_sheet_id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   ]
 }

@@ -23,7 +23,7 @@ public abstract class CharacterSheetEntity extends BaseEntity {
     @Column(name = "player_id", columnDefinition = "uuid", nullable = false)
     private UUID playerId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     private SessionEntity session;
 

@@ -35,7 +35,7 @@ public class CoCSkillEntity extends BaseEntity {
     @Column(name = "usable", columnDefinition = "boolean", nullable = false)
     private Boolean usable;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id")
     private CoCSkillEntity parent_skill;
 

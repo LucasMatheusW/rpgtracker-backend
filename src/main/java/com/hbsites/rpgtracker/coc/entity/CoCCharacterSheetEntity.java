@@ -1,14 +1,13 @@
 package com.hbsites.rpgtracker.coc.entity;
 
+import com.hbsites.rpgtracker.coc.service.CoCPulpTalentService;
 import com.hbsites.rpgtracker.core.dto.CharacterSheetListingDTO;
 import com.hbsites.rpgtracker.core.entity.CharacterSheetEntity;
 import com.hbsites.rpgtracker.core.enumeration.ETRPGSystem;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -120,6 +119,15 @@ public class CoCCharacterSheetEntity extends CharacterSheetEntity {
 
     @Column(name = "cthulhu_mythos", columnDefinition = "integer", nullable = false)
     private Integer cthulhuMythos;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "")
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "pulp_talents_character_sheet_coc",
+            joinColumns = @JoinColumn(name = "pulp_talent_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "character_sheet_id", referencedColumnName = "character_sheet_id"))
+    private List<CoCPulpTalentEntity> pulpTalents;
 
     @Override
     public CharacterSheetListingDTO toListingDTO() {
