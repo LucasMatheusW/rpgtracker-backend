@@ -12,5 +12,4 @@ public class CharacterSheetListingDTO {
     private UUID uuid;
     private String characterName;
     private ETRPGSystem system;
-    private String absolutePath;
 }

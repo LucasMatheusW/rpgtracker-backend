@@ -141,8 +141,7 @@ public class CoCCharacterSheetEntity extends CharacterSheetEntity<CharacterSheet
 
     @Override
     public CharacterSheetListingDTO toListDTO() {
-        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULU,
-                "/coc/character-sheets/".concat(this.getId().toString()));
+        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULU);
     }
 
     @Override
