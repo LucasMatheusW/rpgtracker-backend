@@ -2,7 +2,6 @@ package com.hbsites.rpgtracker.core.service;
 
 import com.hbsites.rpgtracker.core.dto.BasicSessionListingDTO;
 import com.hbsites.rpgtracker.core.dto.SessionListingDTO;
-import com.hbsites.rpgtracker.core.entity.SessionEntity;
 import com.hbsites.rpgtracker.core.repository.SessionRepository;
 import com.hbsites.rpgtracker.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class SessionService {
     private UserService userService;
 
     public List<BasicSessionListingDTO> getDMedSessions() {
-        return sessionRepository.findAllByDmId(userService.getUserUUID()).stream().map(en -> en.toListingDTO().asBasic()).collect(Collectors.toList());
+        return sessionRepository.findAllByDmId(userService.getUserUUID()).stream().map(en -> ((SessionListingDTO) en.toListDTO()).asBasic()).collect(Collectors.toList());
     }
 
 }

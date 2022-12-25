@@ -1,6 +1,5 @@
 package com.hbsites.rpgtracker.core.entity;
 
-import com.hbsites.rpgtracker.core.dto.CharacterSheetListingDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "character_sheet")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class CharacterSheetEntity extends BaseEntity {
+public abstract class CharacterSheetEntity<LISTDTO, DETAILDTO, SESSIONLISTDTO, SESSIONDETAILDTO> extends BaseEntity<LISTDTO, DETAILDTO> {
 
     @Column(name = "character_sheet_id", columnDefinition = "uuid")
     @Id
@@ -25,7 +24,5 @@ public abstract class CharacterSheetEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
-    private SessionEntity session;
-
-    public abstract CharacterSheetListingDTO toListingDTO();
+    private SessionEntity<SESSIONLISTDTO, SESSIONDETAILDTO> session;
 }

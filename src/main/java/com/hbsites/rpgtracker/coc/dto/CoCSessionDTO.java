@@ -7,12 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"system"})
 public class CoCSessionDTO extends SessionListingDTO {
     private Boolean pulpCthulhu;
+    private List<CoCCharacterSheetDTO> characterSheets;
 
     @Override
     public CoCSessionEntity toEntity() {

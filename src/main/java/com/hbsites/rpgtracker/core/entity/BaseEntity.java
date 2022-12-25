@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class BaseEntity<LISTDTO, DETAILDTO> {
     @Column(name = "create_date", columnDefinition = "timestamp")
     private LocalDateTime creationDate;
 
@@ -27,4 +27,8 @@ public abstract class BaseEntity {
     void onUpdate() {
         this.setUpdateDate(LocalDateTime.now());
     }
+
+    public abstract LISTDTO toListDTO();
+
+    public abstract DETAILDTO toDetailDTO();
 }

@@ -1,19 +1,22 @@
 package com.hbsites.rpgtracker.coc.entity;
 
-import com.hbsites.rpgtracker.coc.service.CoCPulpTalentService;
+import com.hbsites.rpgtracker.coc.dto.CoCCharacterSheetDTO;
+import com.hbsites.rpgtracker.coc.dto.CoCSessionDTO;
 import com.hbsites.rpgtracker.core.dto.CharacterSheetListingDTO;
 import com.hbsites.rpgtracker.core.entity.CharacterSheetEntity;
 import com.hbsites.rpgtracker.core.enumeration.ETRPGSystem;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
 @Table(name = "character_sheet_coc")
 @PrimaryKeyJoinColumn(name = "character_sheet_id")
-public class CoCCharacterSheetEntity extends CharacterSheetEntity {
+public class CoCCharacterSheetEntity extends CharacterSheetEntity<CharacterSheetListingDTO, CoCCharacterSheetDTO, CoCSessionDTO, CoCSessionDTO> {
 
     @Column(name = "pulp_cthulhu", columnDefinition = "boolean", nullable = false)
     private Boolean pulpCthulhu;
@@ -120,17 +123,43 @@ public class CoCCharacterSheetEntity extends CharacterSheetEntity {
     @Column(name = "cthulhu_mythos", columnDefinition = "integer", nullable = false)
     private Integer cthulhuMythos;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "characterSheet")
+    private List<CoCCharacterSheetSkillEntity> skills;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "characterSheet")
+    private List<CoCCharacterSheetWeaponEntity> weapons;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "pulp_talents_character_sheet_coc",
-            joinColumns = @JoinColumn(name = "pulp_talent_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "character_sheet_id", referencedColumnName = "character_sheet_id"))
+            joinColumns = @JoinColumn(name = "character_sheet_id", referencedColumnName = "character_sheet_id"),
+            inverseJoinColumns = @JoinColumn(name = "pulp_talent_id", referencedColumnName = "id"))
     private List<CoCPulpTalentEntity> pulpTalents;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "occupation_id", referencedColumnName = "id")
+    private CoCOccupationEntity occupation;
+
     @Override
-    public CharacterSheetListingDTO toListingDTO() {
-        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULU);
+    public CharacterSheetListingDTO toListDTO() {
+        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULU,
+                "/coc/character-sheets/".concat(this.getId().toString()));
+    }
+
+    @Override
+    public CoCCharacterSheetDTO toDetailDTO() {
+        CoCCharacterSheetDTO dto = new CoCCharacterSheetDTO(this.getId(),
+                new CoCCharacterSheetDTO.CoCCharacterSheetBasicInfoDTO(this.getCharacterName(), this.getPulpCthulhu(), this.getAge(),
+                        this.getSex(), this.getBirthplace(), this.getResidence()),
+                new CoCCharacterSheetDTO.CoCCharacterSheetBasicAttributesDTO(this.getStrength(), this.getConstitution(), this.getSize(),
+                        this.getDexterity(), this.getAppearance(), this.getIntelligence(), this.getPower(), this.getEducation(), this.getLuck()),
+                new CoCCharacterSheetDTO.CoCCharacterSheetCalculatedAttributesDTO(this.getMoveRate(), this.getHealthPoints(), this.getMagicPoints(), this.getSanity(),
+                        this.getStartingSanity(), this.getMaximumHealthPoints(), this.getMaximumMagicPoints(), this.getMaximumSanity(), this.getBuild(),
+                        this.getBonusDamage(), this.getMajorWounds(), this.getTemporaryInsanity(), this.getIndefiniteInsanity(), this.getOccupationalSkillPoints(),
+                        this.getPersonalInterestSkillPoints()),
+                this.getPulpTalents() != null ? this.getPulpTalents().stream().map(CoCPulpTalentEntity::toListDTO).collect(Collectors.toList()) : new ArrayList<>(),
+                this.getWeapons() != null ? this.getWeapons().stream().map(CoCCharacterSheetWeaponEntity::toListDTO).collect(Collectors.toList()) : new ArrayList<>()
+        );
+        dto.setOccupation(this.getOccupation() != null ? this.getOccupation().toDetailDTO() : null);
+        return dto;
     }
 }

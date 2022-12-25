@@ -3,7 +3,6 @@ package com.hbsites.rpgtracker.core.dto;
 import com.hbsites.rpgtracker.core.entity.SessionEntity;
 import com.hbsites.rpgtracker.core.enumeration.ETRPGSystem;
 import liquibase.repackaged.org.apache.commons.lang3.NotImplementedException;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

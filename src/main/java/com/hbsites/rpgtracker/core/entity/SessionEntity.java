@@ -1,7 +1,5 @@
 package com.hbsites.rpgtracker.core.entity;
 
-import com.hbsites.rpgtracker.core.dto.CharacterSheetListingDTO;
-import com.hbsites.rpgtracker.core.dto.SessionListingDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "session")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class SessionEntity extends BaseEntity{
+public abstract class SessionEntity<LISTDTO, DETAILDTO> extends BaseEntity<LISTDTO, DETAILDTO>{
 
     @Id
     @GeneratedValue
@@ -30,6 +28,4 @@ public abstract class SessionEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "session", fetch = FetchType.LAZY)
     private List<CharacterSheetEntity> sheets;
-
-    public abstract SessionListingDTO toListingDTO();
 }

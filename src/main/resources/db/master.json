@@ -1,10 +1,10 @@
 {
   "databaseChangeLog": [
     {
-      "include": {"file" : "/changelog/create-tables-core.json", "relativeToChangelogFile": true}
+      "include": {"file" : "/changelog/core.json", "relativeToChangelogFile": true}
     },
     {
-      "include": {"file":  "/changelog/create-tables-call-of-cthulhu.json", "relativeToChangelogFile": true}
+      "include": {"file":  "/changelog/call-of-cthulhu.json", "relativeToChangelogFile": true}
     }
   ]
 }

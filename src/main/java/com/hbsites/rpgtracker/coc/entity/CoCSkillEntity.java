@@ -1,5 +1,7 @@
 package com.hbsites.rpgtracker.coc.entity;
 
+import com.hbsites.rpgtracker.coc.dto.CoCSkillDTO;
+import com.hbsites.rpgtracker.coc.dto.CoCSkillDetailDTO;
 import com.hbsites.rpgtracker.coc.enumeration.ESkillKind;
 import com.hbsites.rpgtracker.coc.enumeration.ESkillRarity;
 import com.hbsites.rpgtracker.core.entity.BaseEntity;
@@ -11,7 +13,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "skills_coc")
-public class CoCSkillEntity extends BaseEntity {
+public class CoCSkillEntity extends BaseEntity<CoCSkillDTO, CoCSkillDetailDTO> {
 
     @Column(name = "id", columnDefinition = "uuid")
     @Id
@@ -37,7 +39,7 @@ public class CoCSkillEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id")
-    private CoCSkillEntity parent_skill;
+    private CoCSkillEntity parentSkill;
 
     @Transient
     private Integer absoluteValue;
@@ -47,8 +49,17 @@ public class CoCSkillEntity extends BaseEntity {
 
     @PostLoad
     private void postLoad() {
-        this.absoluteValue = (this.parent_skill != null && (this.baseValue == null || this.baseValue == 0)) ? this.parent_skill.baseValue : this.baseValue;
-        this.fullName = this.parent_skill != null ? this.name+" ("+ this.parent_skill.getName() +")" : this.name;
+        this.absoluteValue = (this.parentSkill != null && (this.baseValue == null || this.baseValue == 0)) ? this.parentSkill.getBaseValue() : this.baseValue;
+        this.fullName = this.parentSkill != null ? this.name+" ("+ this.parentSkill.getName() +")" : this.name;
     }
 
+    @Override
+    public CoCSkillDTO toListDTO() {
+        return new CoCSkillDTO(this.id, this.getFullName(), this.getAbsoluteValue());
+    }
+
+    @Override
+    public CoCSkillDetailDTO toDetailDTO() {
+        return new CoCSkillDetailDTO(this.id, this.rarity, this.kind, this.usable, this.baseValue, this.name, this.parentSkill != null ? this.parentSkill.toDetailDTO() : null);
+    }
 }

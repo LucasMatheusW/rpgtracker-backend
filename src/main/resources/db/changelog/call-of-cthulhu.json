@@ -925,6 +925,484 @@
           }
         ]
       }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "ammo_coc"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "202212231105",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "ammo_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "rounds_shot_with_each",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "weapon_coc"
+                }
+              }
+            ]
+          },
+          {
+            "tableExists": {
+              "tableName": "ammo_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "skills_coc"
+            }
+          }
+        ],
+        "id": "202212231400",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "weapon_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "range",
+                    "type": "varchar(20)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "damage",
+                    "type": "varchar(20)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "attacks_per_round",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "malfunction",
+                    "type": "integer"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "is_melee",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueBoolean":false
+                  }
+                },
+                {
+                  "column": {
+                    "name": "is_throwable",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueBoolean":false
+                  }
+                },
+                {
+                  "column": {
+                    "name": "is_dual_wield",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueBoolean":false
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ammo_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "foreignKeyName": "fk_weapon_ammo_coc",
+                      "references": "ammo_coc(id)"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "skill_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "foreignKeyName": "fk_weapon_skill_coc",
+                      "references": "skills_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "skills_character_sheet_coc"
+                }
+              }
+            ]
+          },
+          {
+            "tableExists": {
+              "tableName": "skills_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "character_sheet_coc"
+            }
+          }
+        ],
+        "id": "202212231610",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "skills_character_sheet_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "skill_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_skills_character_sheet_skills_coc",
+                      "references": "skills_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "character_sheet_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_skills_character_sheet_character_sheet_coc",
+                      "references": "character_sheet_coc(character_sheet_id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "value",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "improvement_check",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueBoolean":false
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "tableExists": {
+              "tableName": "occupation_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "character_sheet_coc"
+            }
+          }
+        ],
+        "id": "202212250945",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "character_sheet_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "occupation_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "foreignKeyName": "fk_character_sheet_occupation_coc",
+                      "references": "occupation_coc(id)"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN",
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "weapon_character_sheet_coc"
+                }
+              }
+            ]
+          },
+          {
+            "tableExists": {
+              "tableName": "weapon_coc"
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "character_sheet_coc"
+            }
+          }
+        ],
+        "id": "202212251124",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "weapon_character_sheet_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "weapon_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_weapon_character_sheet_weapon_coc",
+                      "references": "weapon_coc(id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "character_sheet_id",
+                    "type": "uuid",
+                    "constraints": {
+                      "primaryKey": true,
+                      "foreignKeyName": "fk_weapon_character_sheet_character_sheet_coc",
+                      "references": "character_sheet_coc(character_sheet_id)",
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "ammo_left",
+                    "type": "integer"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "rounds_left",
+                    "type": "integer"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "quantity_carry",
+                    "type": "integer",
+                    "defaultValueNumeric": 1
+                  }
+                },
+                {
+                  "column": {
+                    "name": "nickname",
+                    "type": "varchar(50)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "create_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "update_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   ]
 }
