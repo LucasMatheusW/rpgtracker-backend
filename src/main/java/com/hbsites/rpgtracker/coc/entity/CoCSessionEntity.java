@@ -1,6 +1,7 @@
 package com.hbsites.rpgtracker.coc.entity;
 
 import com.hbsites.rpgtracker.coc.dto.CoCSessionDTO;
+import com.hbsites.rpgtracker.core.entity.CharacterSheetEntity;
 import com.hbsites.rpgtracker.core.entity.SessionEntity;
 import com.hbsites.rpgtracker.core.enumeration.ETRPGSystem;
 import lombok.Data;
@@ -21,14 +22,14 @@ public class CoCSessionEntity extends SessionEntity<CoCSessionDTO, CoCSessionDTO
     @Override
     public CoCSessionDTO toListDTO() {
         CoCSessionDTO dto = new CoCSessionDTO(this.getPulpCthulhu(), null);
-        dto.populate(this.getSessionId(), this.getSessionName(), ETRPGSystem.CALL_OF_CTHULU, this.getInPlay());
+        dto.populate(this.getSessionId(), this.getSessionName(), ETRPGSystem.CALL_OF_CTHULHU, this.getInPlay(), null);
         return dto;
     }
 
     @Override
     public CoCSessionDTO toDetailDTO() {
-        CoCSessionDTO dto = new CoCSessionDTO(this.getPulpCthulhu(), this.getSheets().stream().map(e -> ((CoCCharacterSheetEntity)e).toDetailDTO()).collect(Collectors.toList()));
-        dto.populate(this.getSessionId(), this.getSessionName(), ETRPGSystem.CALL_OF_CTHULU, this.getInPlay());
+        CoCSessionDTO dto = new CoCSessionDTO(this.getPulpCthulhu(), this.getSheets().stream().map(e -> new CoCSessionDTO.SessionSheet(e.getId(), e.getCharacterName())).collect(Collectors.toList()));
+        dto.populate(this.getSessionId(), this.getSessionName(), ETRPGSystem.CALL_OF_CTHULHU, this.getInPlay(), null);
         return dto;
     }
 }

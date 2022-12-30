@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +30,7 @@ public class CoCCharacterSheetDTO {
         private @NonNull String sex;
         private @NonNull String birthplace;
         private @NonNull String residence;
+        private @NonNull String pulpArchetype;
     }
 
     @RequiredArgsConstructor
@@ -65,5 +65,6 @@ public class CoCCharacterSheetDTO {
         private @NonNull Boolean indefiniteInsanity;
         private @NonNull Integer occupationalSkillPoints;
         private @NonNull Integer personalInterestSkillPoints;
+        private @NonNull Integer dodge;
     }
 }

@@ -1040,7 +1040,8 @@
                     "constraints": {
                       "primaryKey": true,
                       "nullable": false
-                    }
+                    },
+                    "defaultValueComputed": "gen_random_uuid()"
                   }
                 },
                 {
@@ -1396,6 +1397,34 @@
                       "nullable": false
                     },
                     "defaultValueDate": "current_timestamp"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet" : {
+        "preConditions": [
+          {
+            "tableExists": {
+              "tableName": "character_sheet_coc"
+            }
+          }
+        ],
+        "id": "202212262108",
+        "author": "HannaBananna",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "character_sheet_coc",
+              "columns": [
+                {
+                  "column": {
+                    "name": "pulp_archetype",
+                    "type": "varchar(50)"
                   }
                 }
               ]

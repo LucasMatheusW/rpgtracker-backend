@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.util.List;
 @JsonIgnoreProperties({"system"})
 public class CoCSessionDTO extends SessionListingDTO {
     private Boolean pulpCthulhu;
-    private List<CoCCharacterSheetDTO> characterSheets;
+    private List<SessionSheet> characterSheets;
 
     @Override
     public CoCSessionEntity toEntity() {
@@ -25,5 +26,12 @@ public class CoCSessionDTO extends SessionListingDTO {
         e.setSessionName(this.getSessionName() != null ? this.getSessionName() : "");
         e.setPulpCthulhu(this.getPulpCthulhu() != null ? this.getPulpCthulhu() : false);
         return e;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class SessionSheet {
+        private UUID uuid;
+        private String characterName;
     }
 }

@@ -123,6 +123,9 @@ public class CoCCharacterSheetEntity extends CharacterSheetEntity<CharacterSheet
     @Column(name = "cthulhu_mythos", columnDefinition = "integer", nullable = false)
     private Integer cthulhuMythos;
 
+    @Column(name = "pulp_archetype", columnDefinition = "varchar(50)")
+    private String pulpArchetype;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "characterSheet")
     private List<CoCCharacterSheetSkillEntity> skills;
 
@@ -141,20 +144,20 @@ public class CoCCharacterSheetEntity extends CharacterSheetEntity<CharacterSheet
 
     @Override
     public CharacterSheetListingDTO toListDTO() {
-        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULU);
+        return new CharacterSheetListingDTO(this.getId(), this.getCharacterName(), ETRPGSystem.CALL_OF_CTHULHU, this.getSession().getSessionName());
     }
 
     @Override
     public CoCCharacterSheetDTO toDetailDTO() {
         CoCCharacterSheetDTO dto = new CoCCharacterSheetDTO(this.getId(),
                 new CoCCharacterSheetDTO.CoCCharacterSheetBasicInfoDTO(this.getCharacterName(), this.getPulpCthulhu(), this.getAge(),
-                        this.getSex(), this.getBirthplace(), this.getResidence()),
+                        this.getSex(), this.getBirthplace(), this.getResidence(), this.getPulpArchetype()),
                 new CoCCharacterSheetDTO.CoCCharacterSheetBasicAttributesDTO(this.getStrength(), this.getConstitution(), this.getSize(),
                         this.getDexterity(), this.getAppearance(), this.getIntelligence(), this.getPower(), this.getEducation(), this.getLuck()),
                 new CoCCharacterSheetDTO.CoCCharacterSheetCalculatedAttributesDTO(this.getMoveRate(), this.getHealthPoints(), this.getMagicPoints(), this.getSanity(),
                         this.getStartingSanity(), this.getMaximumHealthPoints(), this.getMaximumMagicPoints(), this.getMaximumSanity(), this.getBuild(),
                         this.getBonusDamage(), this.getMajorWounds(), this.getTemporaryInsanity(), this.getIndefiniteInsanity(), this.getOccupationalSkillPoints(),
-                        this.getPersonalInterestSkillPoints()),
+                        this.getPersonalInterestSkillPoints(), this.getDodge()),
                 this.getPulpTalents() != null ? this.getPulpTalents().stream().map(CoCPulpTalentEntity::toListDTO).collect(Collectors.toList()) : new ArrayList<>(),
                 this.getWeapons() != null ? this.getWeapons().stream().map(CoCCharacterSheetWeaponEntity::toListDTO).collect(Collectors.toList()) : new ArrayList<>()
         );

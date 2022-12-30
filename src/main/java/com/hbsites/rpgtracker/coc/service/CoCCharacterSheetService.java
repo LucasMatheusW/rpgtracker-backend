@@ -7,12 +7,15 @@ import com.hbsites.rpgtracker.coc.entity.CoCCharacterSheetSkillEntity;
 import com.hbsites.rpgtracker.coc.entity.CoCSkillEntity;
 import com.hbsites.rpgtracker.coc.repository.CoCCharacterSheetRepository;
 import com.hbsites.rpgtracker.coc.repository.CoCSkillRepository;
+import com.hbsites.rpgtracker.core.service.KeycloakService;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +29,10 @@ public class CoCCharacterSheetService {
     @Lazy
     @Autowired
     private CoCSkillRepository skillRepository;
+
+    @Lazy
+    @Autowired
+    private KeycloakService keycloakService;
 
     public CoCCharacterSheetDTO getOne(UUID id) {
         CoCCharacterSheetEntity e = findOneOrElseThrow(id);
@@ -51,6 +58,13 @@ public class CoCCharacterSheetService {
         dto.getSkills().add(new CoCCharacterSheetSkillDTO(null, "Cthulhu Mythos", e.getCthulhuMythos(), false));
         dto.getSkills().add(new CoCCharacterSheetSkillDTO(null, "Credit Rating", e.getCreditRating(), false));
 
+        dto.getSkills().sort(Comparator.comparing(CoCCharacterSheetSkillDTO::getSkillName));
+
+        //buscar username
+        String user = keycloakService.getUsernameById(e.getPlayerId());
+        if (user != null) {
+            dto.getBasicInfo().setPlayerName(user);
+        }
         return dto;
     }
 

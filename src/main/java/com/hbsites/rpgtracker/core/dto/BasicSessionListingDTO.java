@@ -6,16 +6,18 @@ import liquibase.repackaged.org.apache.commons.lang3.NotImplementedException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 public class BasicSessionListingDTO extends SessionListingDTO {
-    public BasicSessionListingDTO(UUID uuid, String sessionName, ETRPGSystem system, boolean inPlay) {
+    public BasicSessionListingDTO(UUID uuid, String sessionName, ETRPGSystem system, boolean inPlay, List<String> players) {
         this.setUuid(uuid);
         this.setSessionName(sessionName);
         this.setSystem(system);
         this.setInPlay(inPlay);
+        this.setPlayers(players);
     }
 
     @Override
